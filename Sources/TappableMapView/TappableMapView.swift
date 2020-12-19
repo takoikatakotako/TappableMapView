@@ -40,9 +40,12 @@ public class TapplableMapView: UIView {
     }
 }
 
+@available(iOS 13.0, *)
 public struct MapView: UIViewRepresentable {
     @Binding public var locations: [CLLocationCoordinate2D]
     
+    public init() {}
+
     let mapViewDidTap: (_ location: CLLocationCoordinate2D) -> Void
     final public class Coordinator: NSObject, TapplableMapViewDelegate {
         private var mapView: MapView
