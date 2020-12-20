@@ -19,9 +19,10 @@ public class TapplableMapView: UIView {
         
         let tapGestureRecognizer = UITapGestureRecognizer()
         tapGestureRecognizer.addTarget(self, action: #selector(onTap(sender:)))
-        
         mapView.addGestureRecognizer(tapGestureRecognizer)
-        self.backgroundColor = .red
+        
+        mapView.mapType = .satellite
+        
         addSubview(mapView)
     }
     
@@ -44,8 +45,6 @@ public class TapplableMapView: UIView {
 public struct MapView: UIViewRepresentable {
     @Binding public var locations: [CLLocationCoordinate2D]
     
-    public init() {}
-
     let mapViewDidTap: (_ location: CLLocationCoordinate2D) -> Void
     final public class Coordinator: NSObject, TapplableMapViewDelegate {
         private var mapView: MapView
