@@ -5,12 +5,24 @@ import TappableMapView
 struct ContentView: View {
     @State var showingAlert = false
     @State var selectedLocation: CLLocationCoordinate2D?
+    
     @State var locations: [CLLocationCoordinate2D] = []
+    @State var mapType: MKMapType = .hybrid
     
     var body: some View {
-        MapView(locations: $locations) { location in
-            self.selectedLocation = location
-            self.showingAlert = true
+        ZStack(alignment: .topLeading) {
+            MapView(locations: $locations, mapType: $mapType) { location in
+                self.selectedLocation = location
+                self.showingAlert = true
+            }
+            Button(action: {
+                mapType = .satellite
+            }){
+                Text("ChangeMapType")
+                    .padding()
+                    .background(Color.gray)
+            }
+            .padding()
         }
         .onAppear {
             let location = CLLocationCoordinate2D(latitude: CLLocationDegrees(34.6432), longitude: CLLocationDegrees(134.9976))

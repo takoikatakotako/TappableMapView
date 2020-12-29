@@ -7,7 +7,7 @@ public protocol TapplableMapViewDelegate: AnyObject {
 }
 
 public class TapplableMapView: UIView {
-    private lazy var mapView = MKMapView()
+    public lazy var mapView = MKMapView()
     weak public var delegate: TapplableMapViewDelegate?
     
     required init?(coder aDecoder: NSCoder) {
@@ -20,9 +20,7 @@ public class TapplableMapView: UIView {
         let tapGestureRecognizer = UITapGestureRecognizer()
         tapGestureRecognizer.addTarget(self, action: #selector(onTap(sender:)))
         mapView.addGestureRecognizer(tapGestureRecognizer)
-        
-        mapView.mapType = .satellite
-        
+        mapView.mapType = .hybrid
         addSubview(mapView)
     }
     
@@ -44,6 +42,7 @@ public class TapplableMapView: UIView {
 @available(iOS 13.0, *)
 public struct MapView: UIViewRepresentable {
     @Binding public var locations: [CLLocationCoordinate2D]
+    @Binding public var mapType: MKMapType
     
     let mapViewDidTap: (_ location: CLLocationCoordinate2D) -> Void
     final public class Coordinator: NSObject, TapplableMapViewDelegate {
@@ -78,5 +77,6 @@ public struct MapView: UIViewRepresentable {
             annotation.title = "latitude: \(location.latitude), longitude: \(location.longitude)"
             uiView.addAnnotation(annotation)
         }
+        uiView.mapView.mapType = mapType
     }
 }
